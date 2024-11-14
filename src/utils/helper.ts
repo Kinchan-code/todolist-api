@@ -1,6 +1,7 @@
 // errors/CustomError.js
 class CustomError extends Error {
-  constructor(statusCode, message, logError = false) {
+  statusCode: number;
+  constructor(statusCode: number, message: string, logError: boolean = false) {
     super(message);
     this.statusCode = statusCode;
     this.message = message;
@@ -13,4 +14,4 @@ class CustomError extends Error {
   }
 }
 
-module.exports = CustomError;
+export default CustomError;
