@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
-const logger = require("../middleware/logger");
+import mongoose from "mongoose";
+import logger from "../middleware/logger";
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGODB_URI as string);
     logger.info("Connected to MongoDB!");
   } catch (err) {
     logger.error("Failed to connect to MongoDB", err);
@@ -11,4 +11,4 @@ const connectDB = async () => {
   }
 };
 
-module.exports = connectDB;
+export default connectDB;

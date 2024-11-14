@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const TodoListSchema = mongoose.Schema(
+const TodoListSchema = new mongoose.Schema(
   {
     item: {
       type: String,
@@ -17,4 +17,4 @@ const TodoListSchema = mongoose.Schema(
 
 const TodoList = mongoose.model("TodoList", TodoListSchema);
 
-module.exports = TodoList;
+export default TodoList;

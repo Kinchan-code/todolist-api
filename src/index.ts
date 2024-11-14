@@ -1,8 +1,8 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const todoRoutes = require("./routes/todo.route");
-const connectDB = require("./config/database");
+import express from "express";
+import bodyParser from "body-parser";
+import todoRoutes from "./routes/todo.route";
+import connectDB from "./config/database";
+import { Request, Response } from "express";
 require("dotenv").config();
 
 // Middleware
@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use("/api", todoRoutes);
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response) => {
   res.send("Hello from the other side hehe API");
 });
 

@@ -23,4 +23,4 @@ router.put("/update-todo/:id", updateTodoController);
 // Delete a todo
 router.delete("/delete-todo/:id", deleteTodoController);
 
-module.exports = router;
+export default router;

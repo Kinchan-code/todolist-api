@@ -1,7 +1,15 @@
-const CustomError = require("../utils/helper");
-const logger = require("./logger");
+import { NextFunction, Request, Response } from "express";
+import CustomError from "../utils/helper";
+import logger from "./logger";
 
-const errorHandler = (err, req, res, next) => {
+type ErrorHandlerType = (
+  err: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => void;
+
+const errorHandler: ErrorHandlerType = (err, req, res, next) => {
   // Check if the error is an instance of CustomError
   if (err instanceof CustomError) {
     return res.status(err.statusCode).json({
@@ -29,4 +37,4 @@ const errorHandler = (err, req, res, next) => {
   });
 };
 
-module.exports = errorHandler;
+export default errorHandler;
