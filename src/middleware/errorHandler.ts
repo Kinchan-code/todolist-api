@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import CustomError from "../utils/helper";
-import logger from "./logger";
+import { logger } from "./logger";
 
 type ErrorHandlerType = (
   err: Error,
@@ -9,7 +9,7 @@ type ErrorHandlerType = (
   next: NextFunction
 ) => void;
 
-const errorHandler: ErrorHandlerType = (err, req, res, next) => {
+export const errorHandler: ErrorHandlerType = (err, req, res, next) => {
   // Check if the error is an instance of CustomError
   if (err instanceof CustomError) {
     return res.status(err.statusCode).json({
@@ -36,5 +36,3 @@ const errorHandler: ErrorHandlerType = (err, req, res, next) => {
     message: "Internal Server Error",
   });
 };
-
-export default errorHandler;

@@ -1,18 +1,19 @@
 import express from "express";
 import bodyParser from "body-parser";
 import todoRoutes from "./routes/todo.route";
-import connectDB from "./config/database";
-import { Request, Response } from "express";
+import { connectDB } from "./config/database";
+import { Request, Response, Application } from "express";
+import path from "path";
 require("dotenv").config();
 
 // Middleware
-const app = express();
+const app: Application = express();
 app.use(bodyParser.json());
 
 // Routes
 app.use("/api", todoRoutes);
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello from the other side hehe API");
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 connectDB().then(() => {

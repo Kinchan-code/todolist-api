@@ -1,22 +1,22 @@
-import TodoList from "../models/todolist.model";
+import { TodoList } from "../models/todolist.model";
 import CustomError from "../utils/helper";
 
-const getAllTodos = async (searchQuery: string) => {
+export const getAllTodos = async (searchQuery: string) => {
   const todo = searchQuery
     ? { item: { $regex: searchQuery, $options: "i" } }
     : {};
   return await TodoList.find(todo);
 };
 
-const getSingleTodo = async (id: string) => {
+export const getSingleTodo = async (id: string) => {
   return await TodoList.findById(id);
 };
 
-const createTodo = async (todo: typeof TodoList) => {
+export const createTodo = async (todo: typeof TodoList) => {
   return await TodoList.create(todo);
 };
 
-const updateTodo = async (id: string, todo: typeof TodoList) => {
+export const updateTodo = async (id: string, todo: typeof TodoList) => {
   const existingTodo = await TodoList.findById(id);
 
   if (!existingTodo) {
@@ -28,7 +28,7 @@ const updateTodo = async (id: string, todo: typeof TodoList) => {
   });
 };
 
-const deleteTodo = async (id: string) => {
+export const deleteTodo = async (id: string) => {
   const existingTodo = await TodoList.findById(id);
 
   if (!existingTodo) {
@@ -36,12 +36,4 @@ const deleteTodo = async (id: string) => {
   }
 
   return await TodoList.findByIdAndDelete(id);
-};
-
-module.exports = {
-  getAllTodos,
-  getSingleTodo,
-  createTodo,
-  updateTodo,
-  deleteTodo,
 };

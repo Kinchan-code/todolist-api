@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const TodoListSchema = new mongoose.Schema(
+export const TodoListSchema = new mongoose.Schema(
   {
     item: {
       type: String,
@@ -15,6 +15,4 @@ const TodoListSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const TodoList = mongoose.model("TodoList", TodoListSchema);
-
-export default TodoList;
+export const TodoList = mongoose.model("TodoList", TodoListSchema);

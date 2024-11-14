@@ -1,12 +1,14 @@
-const express = require("express");
-const router = express.Router();
-const {
+import express from "express";
+import { Router } from "express";
+import {
   getAllTodosController,
   getSingleTodoController,
   createTodoController,
   updateTodoController,
   deleteTodoController,
-} = require("../controllers/todos.controller");
+} from "../controllers/todos.controller";
+
+const router: Router = express.Router();
 
 // Get all todos
 router.get("/todos", getAllTodosController);
