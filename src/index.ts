@@ -2,13 +2,14 @@ import express from "express";
 import bodyParser from "body-parser";
 import todoRoutes from "./routes/todo.route";
 import authRoutes from "./routes/auth.routes";
+import cookieParser from "cookie-parser";
 import { connectDB } from "./config/database";
 import { Request, Response, Application } from "express";
 
 // Middleware
 const app: Application = express();
 app.use(bodyParser.json());
-
+app.use(cookieParser());
 // Routes
 app.use("/api", todoRoutes);
 app.use("/api/auth", authRoutes);
