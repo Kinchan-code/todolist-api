@@ -11,6 +11,11 @@ export const TodoListSchema = new mongoose.Schema(
       required: [true, "Please add a completed status"],
       default: false,
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "Please add a user"],
+    },
   },
   { timestamps: true }
 );
