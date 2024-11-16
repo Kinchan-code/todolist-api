@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 export const TodoListSchema = new mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "Please add a user"],
+    },
     item: {
       type: String,
       required: [true, "Please add a task"],
@@ -11,10 +16,11 @@ export const TodoListSchema = new mongoose.Schema(
       required: [true, "Please add a completed status"],
       default: false,
     },
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: [true, "Please add a user"],
+    priority: {
+      type: String,
+      required: [true, "Please add a priority"],
+      enum: ["low", "medium", "high"],
+      default: "low",
     },
   },
   { timestamps: true }
