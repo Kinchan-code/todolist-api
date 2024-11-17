@@ -16,8 +16,8 @@ interface SearchParams {
 }
 
 // Validate Todo Data
-function validateTodoData(todoData: TodoData) {
-  if (!todoData.item || typeof todoData.item !== "string") {
+function validateTodoData(todoData: Partial<TodoData>) {
+  if (todoData.item !== undefined && typeof todoData.item !== "string") {
     throw new CustomError(
       400,
       "Invalid item. Item is required and must be a string"
@@ -59,9 +59,11 @@ export const getAllTodos = async (
   if (searchParams.completed !== undefined) {
     query.completed = searchParams.completed; // Search for completed todos
   }
-  if (searchParams.priority) {
+  if (searchParams.priority !== undefined) {
     query.priority = searchParams.priority; // Search for todos with a specific priority
   }
+
+  console.log("Query:", query); // Log the constructed query
 
   const skip = (page - 1) * limit; // Calculate skip value
 
@@ -69,6 +71,8 @@ export const getAllTodos = async (
     .populate("user", "name email _id") // Populate user details
     .skip(skip) // Skip the number of todos based on the page
     .limit(limit); // Limit the number of todos per page
+
+  console.log("Todos:", todos); // Log the fetched todos
 
   const total = await TodoList.countDocuments(query); // Total number of todos
 
@@ -92,7 +96,8 @@ export const createTodo = async (userId: string, todoData: TodoData) => {
     completed: todoData.completed || false, // Completed
     priority: todoData.priority || "low", // Priority
   });
-  return await todo.save(); // Save the todo
+  const savedTodo = await todo.save(); // Save the todo
+  return await savedTodo.populate("user", "name email _id"); // Populate user details
 };
 
 // Update Todo

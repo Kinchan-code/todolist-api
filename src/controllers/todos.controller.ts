@@ -7,6 +7,7 @@ import {
   deleteTodo,
 } from "../service/todos.service";
 import CustomError from "../utils/helper";
+import { formatDateToPST } from "../utils/dateFormatter";
 
 // Custom request interface
 interface CustomRequest extends Request {
@@ -33,7 +34,10 @@ export const getAllTodosController: ControllerType = async (req, res, next) => {
 
     const searchParams: SearchParams = {
       item: req.query.item as string, // Get the item from the request
-      completed: req.query.completed === "true", // Get the completed status from the request
+      completed:
+        req.query.completed !== undefined
+          ? req.query.completed === "true"
+          : undefined, // Get the completed status from the request
       priority: req.query.priority as string, // Get the priority from the request
     }; // Get the search parameters from the request
 
@@ -46,10 +50,20 @@ export const getAllTodosController: ControllerType = async (req, res, next) => {
       page,
       limit
     ); // Get all todos and meta data
+
+    const formattedTodos = todos.map((todo) => {
+      const { createdAt, updatedAt, ...todoDetails } = todo.toObject(); // Get the todo details and exclude the createdAt and updatedAt fields
+      return {
+        ...todoDetails,
+        createdAt: formatDateToPST(createdAt.toISOString()), // Format the createdAt field to PST
+        updatedAt: formatDateToPST(updatedAt.toISOString()), // Format the updatedAt field to PST
+      };
+    }); // Format the createdAt and updatedAt fields
+
     res.status(200).json({
       status: "success",
       total,
-      data: todos,
+      data: formattedTodos,
       page,
       limit,
       totalPages,
@@ -71,7 +85,17 @@ export const getSingleTodoController: ControllerType = async (
       res.status(404).json({ status: "failed", message: "Todo not found" }); // Return an error if the todo is not found
       return;
     }
-    res.status(200).json({ status: "success", data: todo }); // Return the todo
+
+    const { createdAt, updatedAt, ...todoDetails } = todo.toObject(); // Get the todo details and exclude the createdAt and updatedAt fields
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        ...todoDetails,
+        createdAt: formatDateToPST(createdAt.toISOString()), // Format the createdAt field to PST
+        updatedAt: formatDateToPST(updatedAt.toISOString()), // Format the updatedAt field to PST
+      },
+    }); // Return the todo
   } catch (error) {
     next(new CustomError(500, (error as Error).message)); // Return an error if there is an error
   }
@@ -85,8 +109,19 @@ export const createTodoController: ControllerType = async (req, res, next) => {
       res.status(401).json({ status: "failed", message: "Unauthorized" }); // Return an error if the user ID is not found
       return;
     }
+
     const todo = await createTodo(userId as string, req.body); // Create a todo
-    res.status(201).json({ status: "success", data: todo }); // Return the todo
+
+    const { createdAt, updatedAt, ...todoDetails } = todo.toObject(); // Get the todo details and exclude the createdAt and updatedAt fields
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        ...todoDetails,
+        createdAt: formatDateToPST(createdAt.toISOString()), // Format the createdAt field to PST
+        updatedAt: formatDateToPST(updatedAt.toISOString()), // Format the updatedAt field to PST
+      }, // Return the todo
+    });
   } catch (error) {
     next(new CustomError(500, (error as Error).message)); // Return an error if there is an error
   }

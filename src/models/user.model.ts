@@ -27,17 +27,17 @@ const userSchema = new mongoose.Schema(
       default: Date.now, // This is the default value of the last login field
     },
     // Verification status with default value
-    isVerified: {
-      type: Boolean, // This is the type of the is verified field
-      default: false, // This is the default value of the is verified field
-    },
+    // isVerified: {
+    //   type: Boolean, // This is the type of the is verified field
+    //   default: false, // This is the default value of the is verified field
+    // },
     // Reset password token
-    resetPasswordToken: String, // This is the type of the reset password token field
+    // resetPasswordToken: String, // This is the type of the reset password token field
     // Reset password token expiration date
-    resetPasswordTokenExpiresAt: Date, // This is the type of the reset password token expiration date field
-    verificationToken: String, // This is the type of the verification token field
+    // resetPasswordTokenExpiresAt: Date, // This is the type of the reset password token expiration date field
+    // verificationToken: String, // This is the type of the verification token field
     // Verification token expiration date
-    verificationTokenExpiresAt: Date, // This is the type of the verification token expiration date field
+    // verificationTokenExpiresAt: Date, // This is the type of the verification token expiration date field
   },
   {
     timestamps: true, // This adds createdAt and updatedAt fields to the schema
