@@ -88,3 +88,7 @@ This project is a simple API built with Node.js, Express, and MongoDB. It includ
 ## License
 
 This project is for personal use only. All rights reserved.
+
+## Contact
+
+For questions or feedback, please contact [chanbangay@gmail.com](mailto:chanbangay@gmail.com).
