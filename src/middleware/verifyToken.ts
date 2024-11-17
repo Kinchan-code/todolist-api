@@ -3,23 +3,25 @@ import dotenv from "dotenv";
 import { Request, Response, NextFunction } from "express";
 import CustomError from "../utils/helper";
 
-dotenv.config();
+dotenv.config(); // Load environment variables
 
+// Custom request interface
 interface CustomRequest extends Request {
   userId?: string;
 }
 
+// Verify token middleware
 export const verifyToken = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.cookies.jwt;
+  const token = req.cookies.jwt; // Get the token from the cookies
   if (!token) {
     res
       .status(401)
       .json({ status: "failed", message: "Unauthorized - no token provided" });
-    return;
+    return; // Return an error if there is no token
   }
   try {
     const decoded = jwt.verify(
@@ -31,11 +33,11 @@ export const verifyToken = async (
       res
         .status(401)
         .json({ status: "failed", message: "Unauthorized - invalid token" });
-      return;
+      return; // Return an error if there is an invalid token
     }
-    (req as CustomRequest).userId = decoded.userId;
-    next();
+    (req as CustomRequest).userId = decoded.userId; // Set the user ID in the request
+    next(); // Call the next middleware
   } catch (error) {
-    next(new CustomError(401, "Unauthorized"));
+    next(new CustomError(401, "Unauthorized")); // Return an error if there is an error
   }
 };

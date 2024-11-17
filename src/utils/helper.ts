@@ -1,11 +1,11 @@
-// errors/CustomError.js
+// Custom error class
 class CustomError extends Error {
-  statusCode: number;
+  statusCode: number; // Status code
   constructor(statusCode: number, message: string, logError: boolean = false) {
-    super(message);
-    this.statusCode = statusCode;
-    this.message = message;
-    this.name = this.constructor.name;
+    super(message); // Call the parent constructor with the message
+    this.statusCode = statusCode; // Set the status code
+    this.message = message; // Set the message
+    this.name = this.constructor.name; // Set the name of the error
 
     // Optionally log errors
     if (logError) {
@@ -14,4 +14,4 @@ class CustomError extends Error {
   }
 }
 
-export default CustomError;
+export default CustomError; // Export the CustomError class

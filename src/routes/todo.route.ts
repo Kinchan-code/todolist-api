@@ -9,7 +9,7 @@ import {
   deleteTodoController,
 } from "../controllers/todos.controller";
 
-const router: Router = express.Router();
+const router: Router = express.Router(); // Create a router
 
 // Get all todos
 router.get("/todos", verifyToken, getAllTodosController);

@@ -7,12 +7,12 @@ import { connectDB } from "./config/database";
 import { Request, Response, Application } from "express";
 
 // Middleware
-const app: Application = express();
-app.use(bodyParser.json());
-app.use(cookieParser());
+const app: Application = express(); // Create an Express application
+app.use(bodyParser.json()); // Parse JSON bodies
+app.use(cookieParser()); // Parse cookies
 // Routes
-app.use("/api", todoRoutes);
-app.use("/api/auth", authRoutes);
+app.use("/api", todoRoutes); // Use todo routes
+app.use("/api/auth", authRoutes); // Use auth routes
 app.get("/", (req: Request, res: Response) => {
   res.send(`<!DOCTYPE html>
 <html lang="en">
@@ -38,12 +38,13 @@ app.get("/", (req: Request, res: Response) => {
     <div>Welcome to the API!</div>
   </body>
 </html>
-`);
+`); // Send a welcome message
 });
 
+// Connect to the database and start the server
 connectDB().then(() => {
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 3000; // Set the port
   app.listen(port, () => {
-    console.log("Server is running on port", port);
+    console.log("Server is running on port", port); // Log the port
   });
 });

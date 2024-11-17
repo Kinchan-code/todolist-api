@@ -11,9 +11,11 @@ import {
 } from "../controllers/auth.controller";
 import { verifyToken } from "../middleware/verifyToken";
 
-const router: Router = express.Router();
+const router: Router = express.Router(); // Create a router
 
+// Check authentication
 router.get("/check-auth", verifyToken, checkAuthController);
+
 // Signup
 router.post("/signup", signupController);
 
