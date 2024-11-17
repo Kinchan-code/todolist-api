@@ -63,16 +63,12 @@ export const getAllTodos = async (
     query.priority = searchParams.priority; // Search for todos with a specific priority
   }
 
-  console.log("Query:", query); // Log the constructed query
-
   const skip = (page - 1) * limit; // Calculate skip value
 
   const todos = await TodoList.find(query)
     .populate("user", "name email _id") // Populate user details
     .skip(skip) // Skip the number of todos based on the page
     .limit(limit); // Limit the number of todos per page
-
-  console.log("Todos:", todos); // Log the fetched todos
 
   const total = await TodoList.countDocuments(query); // Total number of todos
 
