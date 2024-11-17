@@ -68,6 +68,23 @@ This project is a simple API built with Node.js, Express, and MongoDB. It includ
    npm start
    ```
 
+- **API Endpoints:**
+
+  - **Authentication:**
+
+    - `POST /api/auth/signup` - Register a new user
+    - `POST /api/auth/login` - Login a user
+    - `POST /api/auth/logout` - Logout a user
+    - `POST /api/auth/change-password` - Change user password
+    - `GET /api/auth/check-auth` - Check user authentication status
+
+  - **Todos:**
+    - `GET /api/todos` - Get all todos
+    - `GET /api/todo/:id` - Get a single todo
+    - `POST /api/add-todo` - Create a new todo
+    - `PUT /api/update-todo/:id` - Update a todo
+    - `DELETE /api/delete-todo/:id` - Delete a todo
+
 ## License
 
 This project is for personal use only. All rights reserved.
