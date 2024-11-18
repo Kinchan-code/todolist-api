@@ -37,7 +37,7 @@ export const checkAuthController: ControllerType = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       message: "User is authenticated",
-      user: {
+      data: {
         ...userDetails,
         lastLogin: formatDateToPST(lastLogin.toISOString()),
         createdAt: formatDateToPST(createdAt.toISOString()),
@@ -68,12 +68,10 @@ export const signupController: ControllerType = async (req, res, next) => {
     }
     const user = await signupService(email, password, name); // Create a user
 
-    generateTokenAndSetCookie(res, user._id.toString()); // Generate a token and set it in the cookie
-
     res.status(201).json({
       status: "success",
       message: "User created successfully",
-      data: { user: { ...user.toObject(), password: undefined } },
+      data: { ...user.toObject(), password: undefined },
     });
   } catch (error) {
     next(new CustomError(500, (error as Error).message)); // Return an error if there is an error
@@ -116,13 +114,11 @@ export const loginController: ControllerType = async (req, res, next) => {
       status: "success",
       message: "User logged in successfully",
       data: {
-        user: {
-          ...userDetails,
-          password: undefined,
-          lastLogin: formatDateToPST(lastLogin.toISOString()),
-          createdAt: formatDateToPST(createdAt.toISOString()),
-          updatedAt: formatDateToPST(updatedAt.toISOString()),
-        },
+        ...userDetails,
+        password: undefined,
+        lastLogin: formatDateToPST(lastLogin.toISOString()),
+        createdAt: formatDateToPST(createdAt.toISOString()),
+        updatedAt: formatDateToPST(updatedAt.toISOString()),
       },
     }); // Return the user
   } catch (error) {
