@@ -1,7 +1,8 @@
 import argon2 from "argon2";
 // import crypto from "crypto";
-import { User } from "../models/user.model";
 import CustomError from "../utils/helper";
+import { User } from "../models/user.model";
+import { loginSchema, signupSchema } from "../validations/auth.schema";
 // import {
 //   sendPasswordResetSuccessEmail,
 //   sendResetPasswordEmail,
@@ -25,6 +26,7 @@ export const signupService = async (
   password: string,
   name: string
 ) => {
+  signupSchema.parse({ email, password, name }); // Validate the data
   const hashedPassword = await argon2.hash(password); // Hash the password
   // const verificationToken = Math.floor(
   //   100000 + Math.random() * 900000
@@ -67,6 +69,7 @@ export const signupService = async (
 
 // Login service
 export const loginService = async (email: string, password: string) => {
+  loginSchema.parse({ email, password }); // Validate the data
   const user = await checkUserExists(email); // Check if the user exists
 
   if (!user) {

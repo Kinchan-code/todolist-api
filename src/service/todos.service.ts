@@ -1,5 +1,6 @@
 import { TodoList } from "../models/todolist.model";
 import CustomError from "../utils/helper";
+import { todoSchema } from "../validations/todo.schema";
 
 // Todo Data Interface based on the TodoList model
 interface TodoData {
@@ -13,36 +14,6 @@ interface SearchParams {
   item?: string;
   completed?: boolean;
   priority?: string;
-}
-
-// Validate Todo Data
-function validateTodoData(todoData: Partial<TodoData>) {
-  if (todoData.item !== undefined && typeof todoData.item !== "string") {
-    throw new CustomError(
-      400,
-      "Invalid item. Item is required and must be a string"
-    );
-  } // Check if item is a string
-
-  if (
-    todoData.completed !== undefined &&
-    typeof todoData.completed !== "boolean"
-  ) {
-    throw new CustomError(
-      400,
-      "Invalid completed. Completed must be a boolean"
-    );
-  } // Check if completed is a boolean
-
-  if (
-    todoData.priority !== undefined &&
-    !["low", "medium", "high"].includes(todoData.priority)
-  ) {
-    throw new CustomError(
-      400,
-      "Invalid priority. Must be low, medium, or high"
-    );
-  } // Check if priority is valid
 }
 
 // Get All Todos
@@ -84,7 +55,7 @@ export const getSingleTodo = async (id: string) => {
 
 // Create Todo
 export const createTodo = async (userId: string, todoData: TodoData) => {
-  validateTodoData(todoData); // Validate the todo data
+  todoSchema.parse(todoData); // Validate the todo data
 
   const todo = new TodoList({
     user: userId, // Associate the todo with the userId
@@ -102,7 +73,7 @@ export const updateTodo = async (
   id: string, // Todo ID
   todoData: TodoData // Todo data
 ) => {
-  validateTodoData(todoData); // Validate the todo data
+  todoSchema.parse(todoData); // Validate the todo data
 
   const updateTodo = await TodoList.findOneAndUpdate(
     {
